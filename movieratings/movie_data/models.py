@@ -75,3 +75,26 @@ def import_movies():
 
     with open('movies.json','w') as f:
         f.write(json.dumps(movies))
+
+def import_ratings():
+    import csv
+    import json
+
+    ratings = []
+
+    with open('ml-1m/ratings.dat') as f:
+        reader = csv.DictReader([line.replace('::','\t') for line in f],
+                                fieldnames=['UserID','MovieID','Score'],
+                                delimiter='\t'
+                                )
+        for row in reader:
+            rating = {'fields': {'movie':row['MovieID'],
+                                'rater':row['UserID'],
+                                'score':row['Score']},
+                        'model': 'Rating',
+            }
+
+            ratings.append(rating)
+
+    with open('ratings.json','w') as f:
+        f.write(json.dumps(ratings))

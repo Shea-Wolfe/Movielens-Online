@@ -6,13 +6,16 @@ class Rater(models.Model):
     female = 'f'
     gender_choices = [(male,'Male'),(female,'Female')]
     gender = models.CharField(max_length=1,choices=gender_choices,default=male)
+    zip_code = models.CharField(max_length=5)
+    age = models.PositiveSmallIntegerField()
+    occupation = models.CharField(max_length=255)
 
     def __str__(self):
         return 'user #{}'.format(self.id)
 
 
 class Movie(models.Model):
-    title = models.CharField(max_length=25)
+    title = models.CharField(max_length=255)
 
     def average_rating(self):
         return self.ratings_set.aggrigrate(models.Avg('score'))['score__avg']

@@ -98,3 +98,8 @@ def import_ratings():
 
     with open('ratings.json','w') as f:
         f.write(json.dumps(ratings))
+
+def import_all_data():
+    import_users()
+    import_movies()
+    import_ratings()

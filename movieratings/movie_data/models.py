@@ -31,3 +31,27 @@ class Rating(models.Model):
 
     def __str__(self):
         return '{} gives {} a {}'.format(self.rater,self.movie,self.score)
+
+def import_users():
+    import csv
+    import json
+
+    users = []
+
+    with open('ml-1m/users.dat') as f:
+
+        reader= csv.DictReader([line.replace('::','\t') for line in f],
+                                fieldnames='UserID::Gender::Age::Occupation::Zip-code'.split('::'),
+                                delimiter='\t')
+        for row in reader:
+            user = {'fields': {'gender':row['Gender'],
+                                'age':row['Age'],
+                                'occupation':row['Occupation'],
+                                'zip-code':row['Zip-code']},
+                    'model':'movie_data.Rater',
+                    'pk':int(row['UserID'])
+            }
+            users.append(user)
+
+    with open('users.json','w') as f:
+        f.write(json.dumps(users))

@@ -39,7 +39,6 @@ def import_users():
     users = []
 
     with open('ml-1m/users.dat') as f:
-
         reader= csv.DictReader([line.replace('::','\t') for line in f],
                                 fieldnames='UserID::Gender::Age::Occupation::Zip-code'.split('::'),
                                 delimiter='\t')
@@ -55,3 +54,24 @@ def import_users():
 
     with open('users.json','w') as f:
         f.write(json.dumps(users))
+
+def import_movies():
+    import csv
+    import json
+
+    movies = []
+
+    with open('ml-1m/movies.dat',encoding='windows-1252') as f:
+        reader = csv.DictReader([line.replace('::','\t') for line in f],
+                                fieldnames=['MovieID','MovieTitle'],
+                                delimiter='\t',
+                                )
+        for row in reader:
+            movie = {'fields': {'title':row['MovieTitle']},
+                    'model':'movie_data.Movie',
+                    'pk':int(row['MovieID']),
+            }
+            movies.append(movie)
+
+    with open('movies.json','w') as f:
+        f.write(json.dumps(movies))

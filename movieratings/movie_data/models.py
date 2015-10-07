@@ -14,6 +14,9 @@ class Rater(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=25)
 
+    def average_rating(self):
+        return self.ratings_set.aggrigrate(models.Avg('score'))['score__avg']
+
     def __str__(self):
         return 'Movie #{}, {}'.format(self.id,self.title)
 
@@ -21,7 +24,7 @@ class Movie(models.Model):
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
-    score = models.IntegerField()
+    score = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return '{} gives {} a {}'.format(self.rater,self.movie,self.score)

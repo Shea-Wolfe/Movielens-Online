@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from users import views
+from users import views as user_views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^logout/', views.user_logout, name='logout'),
+    url(r'^login/', user_views.user_login, name='login'),
+    url(r'^logout/', user_views.user_logout, name='logout'),
     url(r'^u/', include('movie_data.urls'))]

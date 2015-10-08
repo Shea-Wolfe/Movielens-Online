@@ -10,7 +10,7 @@
 * In order to view the data you will need to get the movielens 1 million data from http://grouplens.org/datasets/movielens/ and unzip it into a directory named ml-1m which is in movieratings (at the same depth as manage.py)
 * Run python manage.py makemigrations
 * Run python manage.py migrate to setup the database
-* Once you've done that open the shell and run "from movie_data import \*"
+* Once you've done that from the directory containing manage.py open the shell and run "from movie_data import \*" <strong>This MUST be done while you are in the same directory as manage.py</strong>
 * Then run "models.import_all_data()" This will load the data into your database.  It will take a few minutes.
 * Once the data is in and you have the server running the path to the three views are:
   1. localhost:8000/u/movie/1 (can be any number corresponds with movie id) which gets the movies page.

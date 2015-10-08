@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db import models
 from .models import Rater,Movie
 # Create your views here.
 
@@ -12,10 +13,12 @@ def show_movie(request, movie_id):
 
 def top_movies(request):
     movie_list = []
-    for movie in Movie.objects.all():
-        if type(movie.average_rating()) == float:
-            movie_list.append(movie)
-    movies = sorted(movie_list, key=lambda x:x.average_rating(),reverse=True)[:20]
+    # for movie in Movie.objects.all():
+    #     if type(movie.average_rating()) == float:
+    #         movie_list.append(movie)
+    # movies = sorted(movie_list, key=lambda x:x.average_rating(),reverse=True)[:20]
+    filtered = Movie.objects.annotate(num_ratings=models.Count('rating')).filter(num_ratings__gte=50)
+    movies = filtered.annotate(models.Avg('rating__score')).order_by('-rating__score__avg')[:20]
     return render(request,
                 'movie_listing.html',
                 {'movies':movies})

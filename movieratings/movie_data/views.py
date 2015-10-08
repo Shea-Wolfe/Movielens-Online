@@ -4,14 +4,10 @@ from .models import Rater,Movie
 
 def show_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
-    avg = movie.average_rating()
-    ratings = movie.rating_set.all()
 
     return render(request,
                 'movie_page.html',
-                {'movie':movie,
-                'ratings':ratings,
-                'average':avg})
+                {'movie':movie})
 
 
 def top_movies(request):
@@ -26,8 +22,6 @@ def top_movies(request):
 
 def show_user(request, user_id):
     rater = Rater.objects.get(pk=user_id)
-    ratings = rater.rating_set.all()
     return render(request,
                 'rater_page.html',
-                {'rater':rater,
-                'ratings':ratings})
+                {'rater':rater})

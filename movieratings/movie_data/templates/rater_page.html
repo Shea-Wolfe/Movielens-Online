@@ -3,7 +3,9 @@
   <h3>User #{{rater.id}}</h3>
   <p>gender:{{rater.gender}}, age:{{rater.age}}, occupation:{{rater.occupation}},
      zip-code:{{rater.zip_code}}</p>
-  {% for rating in ratings %}
-    <p><b><a href="{% url 'movie_page' rating.movie.pk %}">{{ rating.movie.title }}</a></b> a {{rating.score}} out of 5</p>
+  <ul>
+  {% for rating in rater.rating_set.all %}
+    <li><b><a href="{% url 'movie_page' rating.movie.pk %}">{{ rating.movie.title }}</a></b> a {{rating.score}} out of 5</li>
   {% endfor %}
+  </ul>
 {% endblock %}

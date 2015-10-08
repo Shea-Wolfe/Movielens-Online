@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
   <h3>{{movie.title}}</h3>
-  <h4>Average rating is {{average}} out of 5</h4>
-  {% for rating in ratings %}
-    <p><b>@<a href="{% url 'user_page' rating.rater.pk %}">{{ rating.rater.pk }}</a></b> gives it a {{rating.score}} out of 5</p>
+  <h4>Average rating is {{movie.average_rating}} out of 5</h4>
+  <ul>
+  {% for rating in movie.rating_set.all %}
+    <li><b>@<a href="{% url 'user_page' rating.rater.pk %}">{{ rating.rater.pk }}</a></b> gives it a {{rating.score}} out of 5</li>
   {% endfor %}
+  </ul>
 {% endblock %}

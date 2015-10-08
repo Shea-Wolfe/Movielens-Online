@@ -1,5 +1,7 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from faker import Faker
+fake = Faker()
 # Create your models here.
 class Rater(models.Model):
     male = 'm'
@@ -9,10 +11,15 @@ class Rater(models.Model):
     zip_code = models.CharField(max_length=5)
     age = models.PositiveSmallIntegerField()
     occupation = models.CharField(max_length=255)
+    user = models.OneToOneField(User, null=True)
+
 
     def __str__(self):
         return 'user #{}'.format(self.id)
 
+    def generate_user(self):
+        self.user = User.objects.create_user(fake.user_name(), password='password', email=fake.email())
+        self.save()
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
@@ -28,6 +35,7 @@ class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
     score = models.PositiveSmallIntegerField()
+
 
     def __str__(self):
         return '{} gives {} a {}'.format(self.rater,self.movie,self.score)
@@ -103,3 +111,15 @@ def import_all_data():
     import_users()
     import_movies()
     import_ratings()
+
+
+
+def generate_all_users():
+    username_set = {fake.user_name() for _ in range(9000)}
+    username_list = [x for x in username_set]
+    count = 0
+    for rater in Rater.objects.all():
+        if rater.user == None:
+            rater.user = User.objects.create_user(username_list[count],password='password',email=fake.email())
+            rater.save()
+        count += 1

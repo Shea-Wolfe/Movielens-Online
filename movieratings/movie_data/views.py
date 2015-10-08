@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Rating,User,Movie
+from .models import Rater,Movie
 # Create your views here.
 
 def show_movie(request, movie_id):
@@ -11,21 +10,21 @@ def show_movie(request, movie_id):
     return render(request,
                 'movie_page.html',
                 {'movie':movie,
-                'ratings':ratings
+                'ratings':ratings,
                 'average': avg})
 
 
 def top_movies(request):
-    Movies = Movie.objects.orderby('-average_rating()')[:20]
-    top_20 = [string(movie) for movie in Movies]
+    movies = Movie.objects.orderby('-average_rating()')[:20]
+    top_20 = [str(movie) for movie in movies]
     return render(request,
                 'movies.html',
                 {'movies':top_20})
 
 def show_user(request, user_id):
     rater = Rater.objects.get(pk=user_id)
-    ratings = rater.ratings_set.all()
+    ratings = rater.rating_set.all()
     return render(request,
-                'rater_page.html'
+                'rater_page.html',
                 {'rater':rater,
                 'ratings':ratings})

@@ -2,8 +2,8 @@
 {% block content %}
   <h3>{{rater.id}}</h3>
   <p>gender:{{rater.gender}}, age:{{rater.age}}, occupation:{{rater.occupation}},
-     zip-code:{{rater.zip-code}}</p>
+     zip-code:{{rater.zip_code}}</p>
   {% for rating in ratings %}
-    <p><b><a href="{% url %}">{{ rating.movie.title }}</a></b>{{rating.score}}</p>
+    <p><b><a href="{% url 'movie_page' rating.movie.pk %}">{{ rating.movie.title }}</a></b> a {{rating.score}} out of 5</p>
   {% endfor %}
 {% endblock %}

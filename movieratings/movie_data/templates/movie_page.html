@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3>{{movie.title}}</h3>
+  <p>Average rating {{average}}</p>
+  {% for rating in ratings %}
+    <p><b><a href="{% url %}">{{ rating.rater.id }}</a></b>{{rating.score}}</p>
+  {% endfor %}
+{% endblock %}

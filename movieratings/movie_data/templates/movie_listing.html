@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+  {% for movie in top_20 %}
+    <p><b><a href="{% url %}">{{ movie.title }}</a></b></p>
+  {% endfor %}
+{% endblock %}

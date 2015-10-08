@@ -7,7 +7,7 @@ def show_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
 
     return render(request,
-                'movie_page.html',
+                'movie_data/movie_page.html',
                 {'movie':movie})
 
 
@@ -20,11 +20,11 @@ def top_movies(request):
     filtered = Movie.objects.annotate(num_ratings=models.Count('rating')).filter(num_ratings__gte=50)
     movies = filtered.annotate(models.Avg('rating__score')).order_by('-rating__score__avg')[:20]
     return render(request,
-                'movie_listing.html',
+                'movie_data/movie_listing.html',
                 {'movies':movies})
 
 def show_user(request, user_id):
     rater = Rater.objects.get(pk=user_id)
     return render(request,
-                'rater_page.html',
+                'movie_data/rater_page.html',
                 {'rater':rater})

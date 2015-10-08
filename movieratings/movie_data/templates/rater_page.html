@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <h3>{{rater.id}}</h3>
+  <h3>User #{{rater.id}}</h3>
   <p>gender:{{rater.gender}}, age:{{rater.age}}, occupation:{{rater.occupation}},
      zip-code:{{rater.zip_code}}</p>
   {% for rating in ratings %}

@@ -15,11 +15,14 @@ def show_movie(request, movie_id):
 
 
 def top_movies(request):
-    movies = Movie.objects.orderby('-average_rating()')[:20]
-    top_20 = [str(movie) for movie in movies]
+    movie_list = []
+    for movie in Movie.objects.all():
+        if type(movie.average_rating()) == float:
+            movie_list.append(movie)
+    movies = sorted(movie_list, key=lambda x:x.average_rating(),reverse=True)[:20]
     return render(request,
-                'movies.html',
-                {'movies':top_20})
+                'movie_listing.html',
+                {'movies':movies})
 
 def show_user(request, user_id):
     rater = Rater.objects.get(pk=user_id)

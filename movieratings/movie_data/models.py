@@ -46,13 +46,13 @@ def import_users():
             user = {'fields': {'gender':row['Gender'],
                                 'age':row['Age'],
                                 'occupation':row['Occupation'],
-                                'zip-code':row['Zip-code']},
+                                'zip_code':row['Zip-code']},
                     'model':'movie_data.Rater',
                     'pk':int(row['UserID'])
             }
             users.append(user)
 
-    with open('users.json','w') as f:
+    with open('./movie_data/fixtures/users.json','w') as f:
         f.write(json.dumps(users))
 
 def import_movies():
@@ -73,7 +73,7 @@ def import_movies():
             }
             movies.append(movie)
 
-    with open('movies.json','w') as f:
+    with open('./movie_data/fixtures/movies.json','w') as f:
         f.write(json.dumps(movies))
 
 def import_ratings():
@@ -91,12 +91,12 @@ def import_ratings():
             rating = {'fields': {'movie':row['MovieID'],
                                 'rater':row['UserID'],
                                 'score':row['Score']},
-                        'model': 'Rating',
+                      'model': 'movie_data.Rating',
             }
 
             ratings.append(rating)
 
-    with open('ratings.json','w') as f:
+    with open('./movie_data/fixtures/ratings.json','w') as f:
         f.write(json.dumps(ratings))
 
 def import_all_data():

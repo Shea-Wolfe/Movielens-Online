@@ -18,7 +18,7 @@ class Movie(models.Model):
     title = models.CharField(max_length=255)
 
     def average_rating(self):
-        return self.ratings_set.aggrigrate(models.Avg('score'))['score__avg']
+        return self.rating_set.aggregate(models.Avg('score'))['score__avg']
 
     def __str__(self):
         return 'Movie #{}, {}'.format(self.id,self.title)

@@ -5,13 +5,13 @@ from .models import Rater,Movie
 def show_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     avg = movie.average_rating()
-    ratings = movie.ratings_set.all()
+    ratings = movie.rating_set.all()
 
     return render(request,
                 'movie_page.html',
                 {'movie':movie,
                 'ratings':ratings,
-                'average': avg})
+                'average':avg})
 
 
 def top_movies(request):

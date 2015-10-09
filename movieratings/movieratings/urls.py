@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^login/', user_views.user_login, name='login'),
     url(r'^logout/', user_views.user_logout, name='logout'),
     url(r'^register/', user_views.user_register, name='register'),
+    url(r'^newrating/', user_views.new_rating, name='new_rating'),
     url(r'^u/', include('movie_data.urls'))]

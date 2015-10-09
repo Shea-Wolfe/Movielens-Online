@@ -12,6 +12,7 @@
     <dd>{{rater.zip_code}}</dd>
   </dl>
   <ul>
+    <h4><a href="{% url 'new_rating' %}">Make a new Rating!</a><h4>
   {% for rating in rater.rating_set.all %}
     <li><b><a href="{% url 'movie_page' rating.movie.pk %}">{{ rating.movie.title }}</a></b> a {{rating.score}} out of 5</li>
   {% endfor %}

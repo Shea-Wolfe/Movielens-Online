@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 
 from .forms import UserForm, RaterForm, RatingForm
-from movie_data.models import Rater
+from movie_data.models import Rater,Rating,Movie
 
 # Create your views here.
 def user_login(request):
@@ -59,13 +59,17 @@ def user_register(request):
                   {'form': form})
 
 def new_rating(request):
-    if request.method == 'POST':
-        form = RatingForm(request.POST)
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            form = RatingForm(request.POST)
 
-        if form.is_valid():
-            rating = form.save()
-            rating.save()
-            return redirect('user_page',user_id=request.POST['rater'])
+            if form.is_valid():
+                rating = Rating(movie=Movie.objects.get(pk=request.POST['movie']),rater=request.user.rater,
+                                score=request.POST['score'])
+                rating.save()
+                return redirect('user_page',user_id=request.user.rater.pk)
+        else:
+            form = RatingForm()
+        return render(request, 'users/newrating.html', {'form':form})
     else:
-        form = RatingForm()
-    return render(request, 'users/newrating.html', {'form':form})
+        return redirect('top_movies')

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
+
 class Rater(models.Model):
     zipcode = models.CharField(max_length=5)
     male = 'm'
@@ -11,6 +12,7 @@ class Rater(models.Model):
     occupation = models.CharField(max_length=255)
     user = models.OneToOneField(User,null=True)
 
+
 class Movie(models.Model):
     title = models.CharField(max_length=255)
 
@@ -18,6 +20,18 @@ class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
     score = models.PositiveSmallIntegerField(choices = [(1,'1'),(2,'2'),(3,'3'),(4,'4'),(5,'5')])
+
+def generate_users():
+    from faker import Faker
+    fake = Faker()
+    user_list = [x for x in {fake.user_name() for _ in range(9000)}]
+    count = 0
+    for rater in Rater.objects.all():
+        if rater.user == None:
+            rater.user = User.objects.create_user(user_list[count],password='password',email=fake.email())
+            rater.save()
+        count += 1
+
 
 
 def get_raters():

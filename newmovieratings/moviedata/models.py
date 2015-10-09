@@ -68,8 +68,7 @@ def get_ratings():
                                 'movie':row['movieid'],
                                 'score':row['score'],
                                 },
-                    'model':'moviedata.Rating',
-                    'pk':row['userid']}
+                    'model':'moviedata.Rating',}
             ratings.append(rating)
     with open('./moviedata/fixtures/ratings.json','w') as f:
         f.write(json.dumps(ratings))

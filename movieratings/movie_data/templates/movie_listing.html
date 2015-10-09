@@ -1,9 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-  <h2>Top 20 movies</h2>
-  <ul>
-  {% for movie in movies %}
-    <li><b><a href="{% url 'movie_page' movie.pk %}">{{ movie.title }}</a> average score {{ movie.rating__score__avg|floatformat }} </a></b></li>
-  {% endfor %}
-{% endblock %}
-  </ul>

@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', user_views.user_login, name='login'),
     url(r'^logout/', user_views.user_logout, name='logout'),
+    url(r'^register/', user_views.user_register, name='register'),
     url(r'^u/', include('movie_data.urls'))]

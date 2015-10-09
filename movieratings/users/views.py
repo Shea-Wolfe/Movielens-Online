@@ -58,7 +58,7 @@ def user_register(request):
     return render(request, 'users/register.html',
                   {'form': form})
 
-def new_rating(request):
+def new_user_rating(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
             form = RatingForm(request.POST)
@@ -71,5 +71,18 @@ def new_rating(request):
         else:
             form = RatingForm()
         return render(request, 'users/newrating.html', {'form':form})
+    else:
+        return redirect('top_movies')
+
+def new_movie_rating(request,movie_id):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            score = request.POST['score']
+            rating = Rating(movie=Movie.objects.get(pk=movie_id),rater=request.user.rater,
+                                score=score)
+            rating.save()
+            return redirect('movie_page',movie_id=movie_id)
+
+        return render(request, 'users/movie_rating.html', {'movie':movie_id})
     else:
         return redirect('top_movies')

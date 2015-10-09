@@ -18,4 +18,4 @@ class RaterForm(forms.ModelForm):
 class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
-        fields = ('rater','movie','score')
+        fields = ('movie','score')

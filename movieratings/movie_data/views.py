@@ -5,8 +5,18 @@ from .models import Rater,Movie
 
 def show_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
+    if request.user.is_authenticated():
+        for rating in request.user.rater.rating_set.all():
+            if rating.movie == movie:
+                return render(request,
+                            'movie_data/movie_page.html',
+                            {'movie':movie})
+        return render(request,
+                    'movie_data/rate_movie_page.html',
+                    {'movie':movie})
 
-    return render(request,
+    else:
+        return render(request,
                 'movie_data/movie_page.html',
                 {'movie':movie})
 

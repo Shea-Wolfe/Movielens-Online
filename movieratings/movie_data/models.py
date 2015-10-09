@@ -34,11 +34,13 @@ class Movie(models.Model):
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
-    score = models.PositiveSmallIntegerField()
+    score = models.PositiveSmallIntegerField(choices=[(1,'1'),(2,'2'),(3,'3'),(4,'4'),(5,'5')])
 
 
     def __str__(self):
         return '{} gives {} a {}'.format(self.rater,self.movie,self.score)
+
+
 
 def import_users():
     import csv

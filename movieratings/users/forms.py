@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from movie_data.models import Rater
+from movie_data.models import Rater, Rating
 
 
 class UserForm(forms.ModelForm):
@@ -14,3 +14,8 @@ class RaterForm(forms.ModelForm):
     class Meta:
         model = Rater
         fields = ('gender','age','occupation','zip_code')
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ('movie','score')

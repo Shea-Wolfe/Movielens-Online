@@ -16,6 +16,10 @@ class Rater(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255)
 
+    def average_rating(self):
+        return self.rating_set.all().aggregate(models.Avg('score'))['score__avg']
+
+
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)

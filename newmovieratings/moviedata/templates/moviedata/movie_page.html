@@ -1,0 +1,9 @@
+{% extends "newmovieratings/base.html" %}
+{% block content %}
+<h2>{{movie.title}}</h2>
+<ul>
+  {% for rating in movie.rating_set.all %}
+  <li>@<a href="{% url 'user_page' rating.user.pk %}}">{{rating.user.pk}}</a> gives it {{rating}} out of 5</li>
+  {%endfor%}
+</ul>
+{% endblock %}

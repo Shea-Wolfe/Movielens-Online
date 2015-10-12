@@ -27,6 +27,8 @@ class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
     score = models.PositiveSmallIntegerField(choices = [(1,'1'),(2,'2'),(3,'3'),(4,'4'),(5,'5')])
+    # timestamp = models.DateTimeField(null=True)
+    # review = models.CharField(max_length=255,null=True)
 
 def generate_users():
     from faker import Faker

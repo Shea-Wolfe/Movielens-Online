@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from moviedata.models import Rater,Rating, Movie
 from .forms import LoginForm, RatingForm
@@ -42,8 +43,8 @@ def new_user(request):
         form = LoginForm()
     return render(request, 'users/register.html', {'form':form})
 
+@login_required
 def rate_movie(request):
-    if request.user.is_authenticated:
         if request.method == 'POST':
             form = RatingForm(request.POST)
             if form.is_valid():
@@ -64,16 +65,14 @@ def rate_movie(request):
             form = RatingForm()
         return render(request, 'users/new_rating.html', {'form':form})
 
+@login_required
 def user_rating(request, movie_id):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            rating = Rating(movie=Movie.objects.get(pk=movie_id),
-                                rater=request.user.rater,
-                                score=request.POST['score'])
-            rating.save()
-            return redirect('rater_page',rater_id=request.user.rater.pk)
+    if request.method == 'POST':
+        rating = Rating(movie=Movie.objects.get(pk=movie_id),
+                            rater=request.user.rater,
+                            score=request.POST['score'])
+        rating.save()
+        return redirect('rater_page',rater_id=request.user.rater.pk)
 
-        else:
-            return render(request, 'users/user_rating.html', {'movie':movie_id})
     else:
-        return redirect('top_movies')
+        return render(request, 'users/user_rating.html', {'movie':movie_id})

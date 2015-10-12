@@ -1,2 +1,5 @@
 Django
 fake-factory
+werkzeug
+django-debug-toolbar
+django-extensions

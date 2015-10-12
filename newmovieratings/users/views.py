@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
-from moviedata.models import Rater
-from .forms import LoginForm
+from moviedata.models import Rater,Rating, Movie
+from .forms import LoginForm, RatingForm
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
@@ -38,3 +38,22 @@ def new_user(request):
     else:
         form = LoginForm()
     return render(request, 'users/register.html', {'form':form})
+
+def rate_movie(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = RatingForm(request.POST)
+            if form.is_valid():
+                try:
+                    rating = Rating.objects.get(movie=request.POST['movie'], rater=request.user.rater.pk)
+                except:
+                    rating = Rating(movie=Movie.objects.get(pk=request.POST['movie']),rater=request.user.rater,score=request.POST['score'])
+                    rating.save()
+                    return redirect('rater_page', rater_id=request.user.rater.pk)
+                else:
+                    rating.score = request.POST['score']
+                    rating.save()
+                    return redirect('rater_page', rater_id=request.user.rater.pk)
+        else:
+            form = RatingForm()
+        return render(request, 'users/new_rating.html', {'form':form})

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db import models
+from django.contrib.auth import authenticate
 
 from .models import Movie, Rater, Rating
 # Create your views here.
@@ -10,6 +11,8 @@ def movie_page(request,movie_id):
 
 def rater_page(request,rater_id):
     rater = Rater.objects.get(pk=rater_id)
+    if request.user.is_authenticated:
+        return render(request, 'moviedata/user_movie_page.html',{'rater':rater})
     return render(request,'moviedata/rater_page.html',{'rater':rater})
 
 def top_20(request):

@@ -19,6 +19,9 @@ class Movie(models.Model):
     def average_rating(self):
         return self.rating_set.all().aggregate(models.Avg('score'))['score__avg']
 
+    def __str__(self):
+        return self.title
+
 
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)

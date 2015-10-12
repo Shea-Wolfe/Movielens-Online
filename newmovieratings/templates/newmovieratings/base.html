@@ -3,9 +3,10 @@
 <head>
   <title>MovieDataBase</title>
   {%if user.is_authenticated %}
-  <button><a href="{% url 'logout' %}">Logout</a></button>
-  <button><a href="{% url 'new_rating' %}">Add a new rating!</a></button>
+  <button> Signed in as {{user.username}}</button>
   <button><a href="{% url 'rater_page' user.rater.pk %}">Home</a></button>
+  <button><a href="{% url 'new_rating' %}">Add a new rating!</a></button>
+  <button><a href="{% url 'logout' %}">Logout</a></button>
   {% else %}
   <button><a href="{% url 'login' %}">Login</a></button><button><a href="{% url 'register' %}">Register</a></button>
   {% endif %}

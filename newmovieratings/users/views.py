@@ -12,6 +12,9 @@ def user_login(request):
         if user is not None and user.is_active:
             login(request,user)
             return redirect('rater_page', rater_id=request.user.rater.pk)
+        else:
+            form = LoginForm()
+            return render(request, 'users/login.html', {'form':form,'failed':True})
     else:
         form = LoginForm()
         return render(request, 'users/login.html', {'form':form})

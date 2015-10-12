@@ -1,8 +1,9 @@
 {% extends "newmovieratings/base.html" %}
 {% block content %}
-<h2>{{ rater.pk }}</h2>
 {% if rater.pk == user.pk %}
-<button><a href="{% url 'new_rating' %}">Add a new rating!</a></button>
+<h2>Welcome to your home page {{user.username}}</h2>
+{% else %}
+  <h2>{{ rater.pk }}</h2>
 {% endif %}
 <ul>
   <li>{{ rater.gender }}</li>

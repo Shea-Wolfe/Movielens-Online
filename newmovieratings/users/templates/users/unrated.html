@@ -1,0 +1,11 @@
+{% extends "newmovieratings/base.html" %}
+{% block content %}
+<h2>{{movie.title}}</h2>
+<button><a href="{% url 'user_rating' movie.pk %}">Rate this Film!</a></button>
+<h4>{{movie.average_rating|floatformat:'2'}}</h4>
+<ul>
+  {% for rating in movie.rating_set.all %}
+  <li>@<a href="{% url 'rater_page' rating.rater.pk %}">{{rating.rater.pk}}</a> gives it {{rating.score}} out of 5</li>
+  {%endfor%}
+</ul>
+{% endblock %}

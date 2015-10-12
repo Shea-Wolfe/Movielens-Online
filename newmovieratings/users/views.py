@@ -11,7 +11,7 @@ def user_login(request):
         user = authenticate(username=request.POST['username'],password=request.POST["password"])
         if user is not None and user.is_active:
             login(request,user)
-            return redirect('top_20')
+            return redirect('rater_page', rater_id=request.user.rater.pk)
     else:
         form = LoginForm()
         return render(request, 'users/login.html', {'form':form})
@@ -45,9 +45,12 @@ def rate_movie(request):
             form = RatingForm(request.POST)
             if form.is_valid():
                 try:
-                    rating = Rating.objects.get(movie=request.POST['movie'], rater=request.user.rater.pk)
+                    rating = Rating.objects.get(movie=request.POST['movie'],
+                                                rater=request.user.rater.pk)
                 except:
-                    rating = Rating(movie=Movie.objects.get(pk=request.POST['movie']),rater=request.user.rater,score=request.POST['score'])
+                    rating = Rating(movie=Movie.objects.get(pk=request.POST['movie']),
+                                    rater=request.user.rater,
+                                    score=request.POST['score'])
                     rating.save()
                     return redirect('rater_page', rater_id=request.user.rater.pk)
                 else:
@@ -57,3 +60,17 @@ def rate_movie(request):
         else:
             form = RatingForm()
         return render(request, 'users/new_rating.html', {'form':form})
+
+def user_rating(request, movie_id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = UserRatingForm(request.POST)
+            if form.is_valid():
+                rating = Rating(movie=Movie.objects.get(pk=movie_id),
+                                rater=request.user.rater,
+                                score=request.POST['score'])
+                rating.save()
+
+        else:
+            form = RatingForm()
+        return render(request, 'users/unrated.html', {'form':form})

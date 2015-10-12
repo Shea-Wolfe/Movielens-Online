@@ -7,7 +7,15 @@ from .models import Movie, Rater, Rating
 
 def movie_page(request,movie_id):
     movie = Movie.objects.get(pk=movie_id)
-    return render(request,'moviedata/movie_page.html',{'movie':movie})
+    if request.user.is_authenticated:
+        try:
+            Rating.objects.get(movie=movie.pk, rater=request.user.rater.pk)
+        except:
+            return render(request,'users/unrated.html',{'movie':movie})
+        else:
+            return render(request,'moviedata/movie_page.html',{'movie':movie})
+    else:
+        return render(request,'moviedata/movie_page.html',{'movie':movie})
 
 def rater_page(request,rater_id):
     rater = Rater.objects.get(pk=rater_id)

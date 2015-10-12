@@ -21,4 +21,6 @@
 * First run $ python manage.py runserver. to start the server running.
 * Once the server is running open a browser and go to localhost:8000/login to begin
 * If you don't want to register, you can enter localhost:8000/u/rater/1 to get started, but there is a loss of functionality.
-* If you want to try playing around as another (fake) user first enter the shell.  Next enter from moviedata.models import \*. Then type Rater.objects.all().first().user to get a username.  Their passwords are all 'password'.
+* If you want to try playing around as another (fake) user you will need to create a superuser with python manage.py createsuperuser.  
+* Once you have a superuser go to localhost:8000/admin and login.  If you select raters you will see a full list of raters.  Their usernames will be in the far right column.  
+* Pick any username you like, their passwords are all 'password' for ease of access.

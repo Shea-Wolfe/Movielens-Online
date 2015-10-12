@@ -12,8 +12,3 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
         fields = ('movie','score')
-
-class UserRatingForm(forms.ModelForm):
-    class Meta:
-        model = Rating
-        fields = ('score',)

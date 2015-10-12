@@ -64,13 +64,13 @@ def rate_movie(request):
 def user_rating(request, movie_id):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = UserRatingForm(request.POST)
-            if form.is_valid():
-                rating = Rating(movie=Movie.objects.get(pk=movie_id),
+            rating = Rating(movie=Movie.objects.get(pk=movie_id),
                                 rater=request.user.rater,
                                 score=request.POST['score'])
-                rating.save()
+            rating.save()
+            return redirect('rater_page',rater_id=request.user.rater.pk)
 
         else:
-            form = RatingForm()
-        return render(request, 'users/unrated.html', {'form':form})
+            return render(request, 'users/user_rating.html', {'movie':movie_id})
+    else:
+        return redirect('top_movies')

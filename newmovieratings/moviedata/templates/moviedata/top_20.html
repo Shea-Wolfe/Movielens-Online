@@ -1,8 +1,0 @@
-{% extends "newmovieratings/base.html" %}
-{% block content %}
-<ul>
-  {% for movie in top_20 %}
-  <li><a href="{% url 'movie_page' movie.pk %}">{{movie.title}}</a> with a {{movie.average_rating|floatformat:'2'}} out of 5</li>
-  {%endfor%}
-</ul>
-{% endblock %}

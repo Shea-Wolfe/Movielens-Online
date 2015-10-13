@@ -26,3 +26,7 @@ def rater_page(request,rater_id):
 def top_20(request):
     top_20 = Movie.objects.annotate(average_rating=models.Avg('rating__score')).order_by('-average_rating')[:20]
     return render(request,'moviedata/top_20.html',{'top_20':top_20})
+
+def top_20_rated(request):
+    top_20 = Movie.objects.annotate(total_ratings=models.Count('rating')).order_by('-total_ratings')[:20]
+    return render(request,'moviedata/top_20.html',{'top_20':top_20})

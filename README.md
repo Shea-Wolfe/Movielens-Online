@@ -9,12 +9,12 @@
 * In order to view the data you will need to get the movielens 1 million data from http://grouplens.org/datasets/movielens/ and unzip it into a directory named ml-1m which is in movieratings (at the same depth as manage.py)
 * Run python manage.py makemigrations
 * Run python manage.py migrate to setup the database
-* Once you've done that from the directory containing manage.py open the shell and run "from moviedata.models import \*" <strong>This MUST be done while you are in the same directory as manage.py</strong>
-* Then run "get_all_data()" This will create JSON files for all the data.  It will take a few moments.
-* finally exit out of the shell and run these three commands
+* Run python manage.py generate_data
+* Next run these three commands
   * $ python manage.py loaddata moviedata/fixtures/ratings.json.
   * $ python manage.py loaddata moviedata/fixtures/raters.json.
   * $ python manage.py loaddata moviedata/fixtures/movies.json.
+* Once that's done (it will take a while) run python manage.py generate_users
 
 ## Using the apps
 

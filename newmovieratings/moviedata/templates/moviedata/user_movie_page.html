@@ -12,7 +12,11 @@
   <li>zip-code: {{ rater.zipcode }}</li>
 <ul>
   {% for rating in rater.rating_set.all %}
-  <li>@<a href="{% url 'movie_page' rating.movie.pk %}">{{rating.movie.title}}</a> {{rating.score}}&#9733;'s</li>
+  <li>@<a href="{% url 'movie_page' rating.movie.pk %}">{{rating.movie.title}}</a> {{rating.score}}&#9733;'s
+    {% if rater.pk == user.pk %}
+      <a href="{% url 'user_rating' rating.movie.pk %}">Edit</a>
+    {% endif %}
+    {{rating.timestamp}}</li>
   {%endfor%}
 </ul>
 {% endblock %}

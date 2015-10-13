@@ -3,8 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+from datetime import datetime
 from moviedata.models import Rater,Rating, Movie
-from .forms import LoginForm, RatingForm
+from .forms import LoginForm, RatingForm, UserRatingForm
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
@@ -52,13 +53,14 @@ def rate_movie(request):
                     rating = Rating.objects.get(movie=request.POST['movie'],
                                                 rater=request.user.rater.pk)
                 except:
-                    rating = Rating(movie=Movie.objects.get(pk=request.POST['movie']),
-                                    rater=request.user.rater,
-                                    score=request.POST['score'])
+                    rating = form.save(commit=False)
+                    rating.rater = request.user.rater.pk
+                    rating.timestamp = datetime.now()
                     rating.save()
                     return redirect('rater_page', rater_id=request.user.rater.pk)
                 else:
                     rating.score = request.POST['score']
+                    rating.timestamp = datetime.now()
                     rating.save()
                     return redirect('rater_page', rater_id=request.user.rater.pk)
         else:
@@ -68,11 +70,24 @@ def rate_movie(request):
 @login_required
 def user_rating(request, movie_id):
     if request.method == 'POST':
-        rating = Rating(movie=Movie.objects.get(pk=movie_id),
-                            rater=request.user.rater,
-                            score=request.POST['score'])
-        rating.save()
-        return redirect('rater_page',rater_id=request.user.rater.pk)
+        form = UserRatingForm(request.POST)
+        if form.is_valid():
+            try:
+                rating = Rating.objects.get(movie=Movie.objects.get(pk=movie_id),rater=request.user.rater)
+            except:
+                rating = form.save(commit=False)
+                rating.rater = request.user.rater
+                rating.movie = Movie.objects.get(pk=movie_id)
+                rating.timestamp = datetime.now()
+                rating.save()
+                return redirect('rater_page',rater_id=request.user.rater.pk)
+            else:
+                rating.score = request.POST['score']
+                rating.timestamp = datetime.now()
+                rating.save()
+                return redirect('rater_page',rater_id=request.user.rater.pk)
 
     else:
-        return render(request, 'users/user_rating.html', {'movie':movie_id})
+        form = UserRatingForm()
+    return render(request, 'users/user_rating.html', {'form':form,
+                                                    'movie':movie_id})

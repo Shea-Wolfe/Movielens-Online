@@ -1,19 +1,8 @@
 {%extends 'newmovieratings/base.html' %}
 {% block content %}
-  <form method='POST' action="{% url 'user_rating' movie %}">
-    {% csrf_token %}
-    <h3> Your Rating!</h3>
-    <select name='score'>
-      <option value=1>1&#9733;</option>
-      <option value=2>2&#9733;'s</option>
-      <option value=3>3&#9733;'s</option>
-      <option value=4>4&#9733;'s</option>
-      <option value=5>5&#9733;'s</option>
-    </select>
-    <br>
-    <br>
+<form method="POST" action="{% url 'user_rating' movie %}">
+  {% csrf_token %}
+  {{form.as_p}}
   <input type='submit' value='submit new rating'>
-
 </form>
-<br>
 {% endblock %}

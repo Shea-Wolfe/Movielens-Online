@@ -19,7 +19,7 @@ def movie_page(request,movie_id):
 
 def rater_page(request,rater_id):
     rater = Rater.objects.get(pk=rater_id)
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         return render(request, 'moviedata/user_movie_page.html',{'rater':rater})
     return render(request,'moviedata/rater_page.html',{'rater':rater})
 

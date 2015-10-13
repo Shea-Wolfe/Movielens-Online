@@ -34,7 +34,7 @@ def new_user(request):
             password = user.password
             user.set_password(password)
             user.save()
-            rater = Rater(gender='m',age=25,occupation='3',zipcode='60134')
+            rater = Rater(gender='m',age=25,occupation='3',zipcode='60134',user=user)
             rater.save()
             user = authenticate(username=user.username,password=password)
             login(request,user)

@@ -1,0 +1,22 @@
+{% extends "newmovieratings/base.html" %}
+{% block content %}
+{% if rater.pk == user.pk %}
+<h2>Welcome to your home page {{user.username}}</h2>
+{% else %}
+  <h2>{{ rater.pk }}</h2>
+{% endif %}
+<ul>
+  <li>sex: {{ rater.gender }}</li>
+  <li>age: {{ rater.age }}</li>
+  <li>occupation code: {{ rater.occupation }}</li>
+  <li>zip-code: {{ rater.zipcode }}</li>
+<ul>
+  {% for rating in rater.rating_set.all %}
+  <li>@<a href="{% url 'movie_page' rating.movie.pk %}">{{rating.movie.title}}</a> {{rating.score}}&#9733;'s
+    {% if rater.pk == user.pk %}
+      <a href="{% url 'user_rating' rating.movie.pk %}">Edit</a>
+    {% endif %}
+    {{rating.timestamp}}</li>
+  {%endfor%}
+</ul>
+{% endblock %}

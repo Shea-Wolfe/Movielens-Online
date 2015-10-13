@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MovieDataBase</title>
+</head>
+
+<body>
+  <div style="float:right">
+    {%if user.is_authenticated %}
+    <button> Signed in as {{user.username}}</button>
+    <button><a href="{% url 'rater_page' user.rater.pk %}">Home</a></button>
+    <button><a href="{% url 'new_rating' %}">Add a new rating!</a></button>
+    <button><a href="{% url 'logout' %}">Logout</a></button>
+    {% else %}
+    <button><a href="{% url 'login' %}">Login</a></button><button><a href="{% url 'register' %}">Register</a></button>
+    {% endif %}
+  </div>
+{% block content %}
+{% endblock %}
+</body>
+<footer>Part of the Movielens data project</footer>
+</html>

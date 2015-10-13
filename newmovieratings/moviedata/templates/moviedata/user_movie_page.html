@@ -18,7 +18,7 @@
   <li>occupation code: {{ rater.occupation }}</li>
   <li>zip-code: {{ rater.zipcode }}</li>
 <ul>
-  {% for rating in rater.rating_set.all %}
+  {% for rating in ratings %}
   <li><a href="{% url 'movie_page' rating.movie.pk %}">{{rating.movie.title}}</a> {{rating.score}}&#9733;'s
     {% if rater.pk == user.pk %}
       <button><a href="{% url 'user_rating' rating.movie.pk %}">Edit</a></button>

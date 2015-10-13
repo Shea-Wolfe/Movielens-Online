@@ -3,8 +3,11 @@
 <h2>{{movie.title}}</h2>
 <h4>{{movie.average_rating|floatformat:'2'}}</h4>
 <ul>
-  {% for rating in movie.rating_set.all %}
-  <li>User <a href="{% url 'rater_page' rating.rater.pk %}">{{rating.rater.pk}}</a> gives it {{rating.score}}&#9733;'s out of 5</li>
+  {% for rating in ratings %}
+  <li><a href="{% url 'rater_page' rating.rater.pk %}">User {{rating.rater.pk}}</a> gives it {{rating.score}}&#9733;'s out of 5
+  {% if rating.review %}
+    <button><a href="{% url 'review_page' movie_id=movie.pk rater_id=rating.rater.pk %}">Read the review</a></button>
+    {% endif %}</li>
   {%endfor%}
 </ul>
 {% endblock %}

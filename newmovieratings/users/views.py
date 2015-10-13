@@ -87,6 +87,7 @@ def user_rating(request, movie_id):
                 return redirect('rater_page',rater_id=request.user.rater.pk)
             else:
                 rating.score = request.POST['score']
+                rating.review = request.POST['review']
                 rating.timestamp = datetime.now()
                 rating.save()
                 messages.add_message(request, messages.SUCCESS, "Rating Edited!")

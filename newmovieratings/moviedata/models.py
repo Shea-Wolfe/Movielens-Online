@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 # Create your models here.
 
 class Rater(models.Model):
-    zipcode = models.CharField(max_length=5,validators=[RegexValidator(r'\d{5}$',message='5 digit zip-codes only please')])
+    zipcode = models.CharField(max_length=10)
     male = 'm'
     female = 'f'
     gender_choices = [(male,'Male'),(female,'Female')]
@@ -24,7 +24,7 @@ class Movie(models.Model):
     def average_rating(self):
         return self.rating_set.all().aggregate(models.Avg('score'))['score__avg']
 
-    
+
 
     def __str__(self):
         return self.title

@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'moviedata',
     'users',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,8 +80,12 @@ WSGI_APPLICATION = 'newmovieratings.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'newmovieratings',
+        'USER': 'newmovieratings',
+        'PASSWORD': 'newmovieratings',
+        'HOST': '',
+        'PORT': '',
     }
 }
 

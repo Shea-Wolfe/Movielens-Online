@@ -1,0 +1,6 @@
+{% extends "newmovieratings/base.html" %}
+{% block content %}
+<h1><a href="{% url 'rater_page' rater.pk %}">{{rater.user.username}}'s</a> take
+on <a href="{% url 'movie_page' movie.pk %}">{{movie.title}}</a></h1>
+<p>{{rating.review}}</p>
+{% endblock %}

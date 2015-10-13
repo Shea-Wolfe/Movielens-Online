@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from datetime import datetime
 from moviedata.models import Rater,Rating, Movie
@@ -54,14 +55,16 @@ def rate_movie(request):
                                                 rater=request.user.rater.pk)
                 except:
                     rating = form.save(commit=False)
-                    rating.rater = request.user.rater.pk
+                    rating.rater = request.user.rater
                     rating.timestamp = datetime.now()
                     rating.save()
+                    messages.add_message(request, messages.SUCCESS, "Rating Created!")
                     return redirect('rater_page', rater_id=request.user.rater.pk)
                 else:
                     rating.score = request.POST['score']
                     rating.timestamp = datetime.now()
                     rating.save()
+                    messages.add_message(request, messages.SUCCESS, "Rating Edited!")
                     return redirect('rater_page', rater_id=request.user.rater.pk)
         else:
             form = RatingForm()
@@ -80,14 +83,23 @@ def user_rating(request, movie_id):
                 rating.movie = Movie.objects.get(pk=movie_id)
                 rating.timestamp = datetime.now()
                 rating.save()
+                messages.add_message(request, messages.SUCCESS, "Rating Created!")
                 return redirect('rater_page',rater_id=request.user.rater.pk)
             else:
                 rating.score = request.POST['score']
                 rating.timestamp = datetime.now()
                 rating.save()
+                messages.add_message(request, messages.SUCCESS, "Rating Edited!")
                 return redirect('rater_page',rater_id=request.user.rater.pk)
 
     else:
         form = UserRatingForm()
     return render(request, 'users/user_rating.html', {'form':form,
                                                     'movie':movie_id})
+
+@login_required
+def remove_rating(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    movie.rating_set.filter(rater=request.user.rater).delete()
+    messages.add_message(request, messages.SUCCESS, "Rating Deleted!")
+    return redirect('rater_page',rater_id=request.user.rater.pk)

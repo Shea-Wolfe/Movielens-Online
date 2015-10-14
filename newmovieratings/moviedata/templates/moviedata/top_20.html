@@ -1,9 +1,16 @@
 {% extends "newmovieratings/base.html" %}
+{% load bootstrap3 %}
 {% block content %}
 <h2> Selected Films </h2>
-<ul>
+<table class="table">
+    <tr>
+      <th> Movie</th><th>average rating</th>
+    </tr>
+  <tb>
   {% for movie in top_20 %}
-  <li><a href="{% url 'movie_page' movie.pk %}">{{movie.title}}</a> with a {{movie.average_rating|floatformat:'2'}} out of 5</li>
+  <tr><td><a href="{% url 'movie_page' movie.pk %}">{{movie.title}}</a></td><td>{{movie.average_rating|floatformat:'2'}} out of 5</td></tr>
   {%endfor%}
-</ul>
+</tb>
+</table>
+{% bootstrap_pagination page_obj %}
 {% endblock %}

@@ -7,6 +7,7 @@
 ## Building the Database:
 
 * In order to view the data you will need to get the movielens 1 million data from http://grouplens.org/datasets/movielens/ and unzip it into a directory named ml-1m which is in movieratings (at the same depth as manage.py)
+* You will need to have a PostgreSQL server running.  For details on getting it set up check https://github.com/tiyd-python-2015-08/course-resources/blob/master/week7/PostgreSQL-and-Django.md
 * Run python manage.py makemigrations
 * Run python manage.py migrate to setup the database
 * Run python manage.py generate_data

@@ -1,23 +1,37 @@
+{% load bootstrap3 %}
+{% load bootstrap_themes %}
 <!DOCTYPE html>
 <html>
 <head>
   <title>MovieDataBase</title>
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  {% bootstrap_messages %}
+  {% bootstrap_styles theme='slate' type='css'%}
 </head>
 
 <body>
-  <div style="float:right">
+  <style media="screen" type="text/css">
+    body { padding-top: 50px; padding-left: 10px}
+  </style>
+  <nav class="navbar navbar-default navbar-fixed-top">
+  <ul class="nav nav-pills">
     {%if user.is_authenticated %}
-    <button> Signed in as {{user.username}}</button>
-    <button><a href="{% url 'rater_page' user.rater.pk %}">Home</a></button>
-    <button><a href="{% url 'new_rating' %}">Add a new rating!</a></button>
-    <button><a href="{% url 'top_20' %}">Highest rated</a></button>
-    <button><a href="{% url 'popular' %}">Most viewed</a></button>
-    <button><a href="{% url 'logout' %}">Logout</a></button>
+    <li><a href="{% url 'rater_page' user.rater.pk %}">Home</a></li>
+    <li><a href="{% url 'new_rating' %}">Add a new rating!</a></li>
+    <li><a href="{% url 'top_20' %}">Highest rated</a></li>
+    <li><a href="{% url 'popular' %}">Most viewed</a></li>
+    <li><a href="{% url 'logout' %}">Signed in as {{user.username}}: Logout</a></li>
     {% else %}
-    <button><a href="{% url 'login' %}">Login</a></button><button><a href="{% url 'register' %}">Register</a></button>
+    <ul class="nav nav-pills">
+      <li><a href="{% url 'login' %}">Login</a></li>
+      <li><a href="{% url 'register' %}">Register</a></li>
+      <li><a href="{% url 'top_20' %}">Highest rated</a></li>
+      <li><a href="{% url 'popular' %}">Most viewed</a></li>
+    </ul>
     {% endif %}
-  </div>
-
+  </ul>
+</nav>
 {% block content %}
 {% endblock %}
 </body>

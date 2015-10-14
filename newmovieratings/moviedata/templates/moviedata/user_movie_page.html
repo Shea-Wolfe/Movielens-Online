@@ -2,15 +2,8 @@
 {% block content %}
 {% if rater.pk == user.pk %}
 <h2>Welcome to your home page {{user.username}}</h2>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 {% else %}
-  <h2>{{ rater.pk }}</h2>
+  <h2>{{ rater.user.username }}'s home page</h2>
 {% endif %}
 <ul>
   <li>sex: {{ rater.gender }}</li>
@@ -21,10 +14,12 @@
   {% for rating in ratings %}
   <li><a href="{% url 'movie_page' rating.movie.pk %}">{{rating.movie.title}}</a> {{rating.score}}&#9733;'s
     {% if rater.pk == user.pk %}
-      <button><a href="{% url 'user_rating' rating.movie.pk %}">Edit</a></button>
-      <button><a href="{% url 'remove_rating' rating.movie.pk %}">Delete</a></button>
+      <a href="{% url 'user_rating' rating.movie.pk %}" class="btn btn-default">Edit</a>
+      <a href="{% url 'remove_rating' rating.movie.pk %}" class="btn btn-default">Delete</a>
     {% endif %}
+    {% if rating.timestamp %}
     {{rating.timestamp}}</li>
+    {% endif %}
   {%endfor%}
 </ul>
 {% endblock %}

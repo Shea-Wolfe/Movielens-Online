@@ -1,10 +1,10 @@
 {% extends "newmovieratings/base.html" %}
 {% block content %}
 <h2>{{movie.title}}</h2>
-<h4>&nbsp;&nbsp;&nbsp;&nbsp;Average score of {{movie.average_rating|floatformat:'2'}} &#9733;'s</h4>
+<h4>Average score of {{movie.average_rating|floatformat:'2'}} &#9733;'s</h4>
 <ul>
   {% for rating in ratings %}
-  <li><a href="{% url 'rater_page' rating.rater.pk %}">User {{rating.rater.pk}}</a> gives it {{rating.score}}&#9733;'s out of 5
+  <li><a href="{% url 'rater_page' rating.rater.pk %}">{{rating.rater.pk}}</a> gives it {{rating.score}}&#9733;'s out of 5
   {% if rating.review %}
     <a href="{% url 'review_page' movie_id=movie.pk rater_id=rating.rater.pk %}"class="btn btn-default">Read the review</a>
     {% endif %}</li>

@@ -33,6 +33,6 @@ class Movie(models.Model):
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
-    score = models.PositiveSmallIntegerField(choices = [(1,'1'),(2,'2'),(3,'3'),(4,'4'),(5,'5')])
+    score = models.PositiveSmallIntegerField(choices = [(5,'5\u2605\'s'),(4,'4\u2605\'s'),(3,'3\u2605\'s'),(2,'2\u2605\'s'),(1,'1\u2605')])
     timestamp = models.DateTimeField(null=True)
-    review = models.TextField(max_length=400,null=True, blank=True)
+    review = models.CharField(max_length=255,null=True, blank=True)

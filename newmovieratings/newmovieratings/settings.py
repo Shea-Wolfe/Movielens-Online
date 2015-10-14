@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'moviedata',
     'users',
     'bootstrap3',
+    'bootstrap_themes'
 )
 
 MIDDLEWARE_CLASSES = (

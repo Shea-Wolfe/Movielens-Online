@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from datetime import datetime
 from moviedata.models import Rater,Rating, Movie
-from .forms import LoginForm, RatingForm, UserRatingForm
+from .forms import LoginForm, RatingForm, UserRatingForm, RaterForm
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
@@ -39,7 +38,6 @@ def new_user(request):
             user = authenticate(username=user.username,password=password)
             login(request,user)
             return redirect('rater_page', rater_id=rater.pk)
-
 
     else:
         form = LoginForm()
@@ -104,3 +102,20 @@ def remove_rating(request, movie_id):
     movie.rating_set.filter(rater=request.user.rater).delete()
     messages.add_message(request, messages.SUCCESS, "Rating Deleted!")
     return redirect('rater_page',rater_id=request.user.rater.pk)
+
+@login_required
+def update_rater(request):
+    if request.method == 'POST':
+        form = RaterForm(request.POST)
+        if form.is_valid():
+            rater = request.user.rater
+            rater.gender = request.POST['gender']
+            rater.age = request.POST['age']
+            rater.occupation = request.POST['occupation']
+            rater.zipcode = request.POST['zipcode']
+            rater.save()
+            messages.add_message(request, messages.SUCCESS, "User Updated!")
+            return redirect('rater_page',rater_id=request.user.rater.pk)
+    else:
+        form = RaterForm()
+    return render(request, 'users/update_rater.html',{'form':form})

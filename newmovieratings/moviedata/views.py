@@ -32,6 +32,7 @@ def rater_page(request,rater_id):
     return render(request,'moviedata/rater_page.html',{'rater':rater,
                                                         'ratings':ratings})
 
+
 class Top_20(ListView):
     paginate_by = 20
     context_object_name = 'top_20'
@@ -48,6 +49,14 @@ class Top_20_Rated(ListView):
 
     def get_queryset(self):
         return Movie.objects.annotate(total_ratings=models.Count('rating')).order_by('-total_ratings')
+
+
+def review_page(request, movie_id, rater_id):
+    rating = Rating.objects.get(movie=Movie.objects.get(pk=movie_id),
+                                rater=Rater.objects.get(pk=rater_id))
+    return render(request,'moviedata/review_page.html',{'rating':rating,})
+
+#Outdated views kept for reference.
 
 # def top_20(request):
 #     pop_movies = Movie.objects.annotate(num_ratings=models.Count('rating')).filter(num_ratings__gte=50)
@@ -82,11 +91,3 @@ class Top_20_Rated(ListView):
 #         top_20 = paginator.page(paginator.num_pages)
 #
 #     return render(request,'moviedata/top_20.html',{'top_20':top_20})
-
-def review_page(request, movie_id, rater_id):
-    movie = Movie.objects.get(pk=movie_id)
-    rater = Rater.objects.get(pk=rater_id)
-    rating = Rating.objects.get(movie=movie,rater=rater)
-    return render(request,'moviedata/review_page.html',{'rating':rating,
-                                                        'movie':movie,
-                                                        'rater':rater})

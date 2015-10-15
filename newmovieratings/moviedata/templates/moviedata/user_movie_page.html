@@ -10,16 +10,25 @@
   <li>age: {{ rater.age }}</li>
   <li>occupation code: {{ rater.occupation }}</li>
   <li>zip-code: {{ rater.zipcode }}</li>
-<ul>
+  {% if rater.pk == user.pk %}
+    <a href="{% url 'update_rater'%}" class="btn btn-default">Update Profile</a>
+  {% endif %}
+<table class="table" style="width:50%">
+  <tr><th>Movie Title</th><th>Rating</th>
+  {% if rater.pk == user.pk %}
+  <th>Edit</th><th>Delete</th>
+  {% endif %}
+  <th>Timestamp</th></tr>
+  <tb>
   {% for rating in ratings %}
-  <li><a href="{% url 'movie_page' rating.movie.pk %}">{{rating.movie.title}}</a> {{rating.score}}&#9733;'s
+  <tr><td><a href="{% url 'movie_page' rating.movie.pk %}">{{rating.movie.title}}</a></td> <td>{{rating.score}}&#9733;'s</td>
     {% if rater.pk == user.pk %}
-      <a href="{% url 'user_rating' rating.movie.pk %}" class="btn btn-default">Edit</a>
-      <a href="{% url 'remove_rating' rating.movie.pk %}" class="btn btn-default">Delete</a>
+      <td><a href="{% url 'user_rating' rating.movie.pk %}" class="btn btn-default">Edit</a></td>
+      <td><a href="{% url 'remove_rating' rating.movie.pk %}" class="btn btn-default">Delete</a></td>
     {% endif %}
     {% if rating.timestamp %}
-    {{rating.timestamp}}</li>
-    {% endif %}
+    <td>{{rating.timestamp}}</td>
+    {% endif %}</tr>
   {%endfor%}
-</ul>
+</tb></table>
 {% endblock %}

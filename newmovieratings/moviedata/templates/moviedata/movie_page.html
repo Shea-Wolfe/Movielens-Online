@@ -2,12 +2,18 @@
 {% block content %}
 <h2>{{movie.title}}</h2>
 <h4>Average score of {{movie.average_rating|floatformat:'2'}} &#9733;'s</h4>
-<ul>
+{% block rating %}{% endblock %}
+<table class="table" style="width:50%">
+  <tr>
+    <th>Rater ID</th><th>Rating</th><th>Review</th>
+  </tr>
+<tb>
   {% for rating in ratings %}
-  <li><a href="{% url 'rater_page' rating.rater.pk %}">{{rating.rater.pk}}</a> gives it {{rating.score}}&#9733;'s out of 5
+  <tr><td><a href="{% url 'rater_page' rating.rater.pk %}">{{rating.rater.pk}}</a> </td><td>{{rating.score}}&#9733;'s out of 5</td>
   {% if rating.review %}
-    <a href="{% url 'review_page' movie_id=movie.pk rater_id=rating.rater.pk %}"class="btn btn-default">Read the review</a>
-    {% endif %}</li>
+  <td><a href="{% url 'review_page' movie_id=movie.pk rater_id=rating.rater.pk %}"class="btn btn-default">Read the review</a></td>
+    {% endif %}</tr>
   {%endfor%}
-</ul>
+</tb>
+</table>
 {% endblock %}

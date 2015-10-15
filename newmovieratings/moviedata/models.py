@@ -9,7 +9,7 @@ class Rater(models.Model):
     female = 'f'
     gender_choices = [(male,'Male'),(female,'Female')]
     gender = models.CharField(choices=gender_choices,max_length=1)
-    age = models.PositiveSmallIntegerField(validators=[RegexValidator(r'(\d{1:2}|100)$',message='Please enter an age between 1 and 100')])
+    age = models.CharField(max_length=3, validators=[RegexValidator(r'\d+$',message='Please enter an age between 1 and 100')])
     occupation = models.CharField(max_length=255,validators=[RegexValidator(r'\d+$',message='Please enter your occupation\'s code number')])
     user = models.OneToOneField(User,null=True)
 
